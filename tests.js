@@ -138,19 +138,10 @@ Checkout.prototype = {
         this.totalWithoutDiscounts += this.prices[item];
     },
     discounts: function() {
-        var discountAFilter, numberOfADiscounts, totalDiscount, discountBFilter, numberOfBDiscounts;
-        
-        totalDiscount = 0;
-        
-        discountAFilter = this.items.filter(function(itemValue) { return itemValue === "A";});
-        numberOfADiscounts = Math.floor(discountAFilter.length / 3);
-        
-        totalDiscount += (-20 * numberOfADiscounts);
-        
-        discountBFilter = this.items.filter(function(itemValue) { return itemValue === "B";});
-        numberOfBDiscounts = Math.floor(discountBFilter.length / 2);
-        
-        totalDiscount += (-15 * numberOfBDiscounts);
+        var totalDiscount = 0;
+
+        totalDiscount += (getDiscount(this.items, "A", 3, -20));
+        totalDiscount += (getDiscount(this.items, "B", 2, -15));
         
         return totalDiscount;
     },
@@ -158,3 +149,12 @@ Checkout.prototype = {
         return this.totalWithoutDiscounts + this.discounts();
     }
 };
+
+function getDiscount(checkoutItems, unitOfDiscountedItem, numberOfItemsForApplicability, discount) {
+        var filter, numberOfDiscountsToApply;
+        
+        filter = checkoutItems.filter(function(itemValue) { return itemValue === unitOfDiscountedItem;});
+        numberOfDiscountsToApply = Math.floor(filter.length / numberOfItemsForApplicability);
+        
+        return discount * numberOfDiscountsToApply;
+}
