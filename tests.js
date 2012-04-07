@@ -35,20 +35,40 @@ test("Adding CDBA should return 115", function() {
     equals(115, checkout.total);
 });
 
+test("Adding AA should return 100", function() {
+   var checkout = new Checkout();
+   checkout.add("A");
+   checkout.add("A");
+    equals(100, checkout.total);
+});
+
+test("Adding AAA should return 130", function() {
+   var checkout = new Checkout();
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+    equals(130, checkout.total);
+});
+
+
 var Checkout = function() {
     this.total = 0;
+    this.items = [];
     this.prices = {
         "":0,
         "A":50,
         "B":30,
         "C":20,
         "D":15
-    }
-    }
+    };
+    };
 
 Checkout.prototype = {
     add: function(item) {
-        
+        this.items.push(item)
         this.total += this.prices[item];
+        if (this.items.filter(function(itemValue) { return itemValue === "A"}).length === 3){
+         this.total -= 20;
+        }
     }
 }
