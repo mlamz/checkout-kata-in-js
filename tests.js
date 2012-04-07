@@ -37,21 +37,18 @@ test("Adding CDBA should return 115", function() {
 
 var Checkout = function() {
     this.total = 0;
+    this.prices = {
+        "":0,
+        "A":50,
+        "B":30,
+        "C":20,
+        "D":15
+    }
     }
 
 Checkout.prototype = {
     add: function(item) {
-        if (item === "A"){
-            this.total += 50;
-        }
-        if (item === "B"){
-            this.total += 30;
-        }
-        if (item === "C"){
-            this.total += 20;
-        }
-        if (item === "D"){
-            this.total += 15;
-        }
+        
+        this.total += this.prices[item];
     }
 }
