@@ -26,6 +26,15 @@ test("Adding AB should return 80", function() {
     equals(80, checkout.total);
 });
 
+test("Adding CDBA should return 115", function() {
+   var checkout = new Checkout();
+   checkout.add("C");
+   checkout.add("D");
+   checkout.add("B");
+   checkout.add("A");
+    equals(115, checkout.total);
+});
+
 var Checkout = function() {
     this.total = 0;
     }
@@ -37,6 +46,12 @@ Checkout.prototype = {
         }
         if (item === "B"){
             this.total += 30;
+        }
+        if (item === "C"){
+            this.total += 20;
+        }
+        if (item === "D"){
+            this.total += 15;
         }
     }
 }
