@@ -19,6 +19,13 @@ test("Adding B should return 30", function() {
     equals(30, checkout.total);
 });
 
+test("Adding AB should return 80", function() {
+   var checkout = new Checkout();
+   checkout.add("A");
+   checkout.add("B");
+    equals(80, checkout.total);
+});
+
 var Checkout = function() {
     this.total = 0;
     }
@@ -26,10 +33,10 @@ var Checkout = function() {
 Checkout.prototype = {
     add: function(item) {
         if (item === "A"){
-            this.total = 50;
+            this.total += 50;
         }
         if (item === "B"){
-            this.total = 30;
+            this.total += 30;
         }
     }
 }
