@@ -80,6 +80,46 @@ test("Adding AAAAAA should return 260", function() {
     equals(checkout.total(), 260);
 });
 
+test("Adding AAAB should return 160", function() {
+   var checkout = new Checkout();
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("B");
+    equals(checkout.total(), 160);
+});
+
+test("Adding AAABB should return 175", function() {
+   var checkout = new Checkout();
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("B");
+   checkout.add("B");
+    equals(checkout.total(), 175);
+});
+
+test("Adding AAABBD should return 190", function() {
+   var checkout = new Checkout();
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("B");
+   checkout.add("B");
+   checkout.add("D");
+    equals(checkout.total(), 190);
+});
+
+test("Adding DABABA should return 190", function() {
+   var checkout = new Checkout();
+   checkout.add("D");
+   checkout.add("A");
+   checkout.add("B");
+   checkout.add("A");
+   checkout.add("B");
+   checkout.add("A");
+    equals(checkout.total(), 190);
+});
 var Checkout = function() {
     this.totalWithoutDiscounts = 0;
     this.items = [];
@@ -98,12 +138,21 @@ Checkout.prototype = {
         this.totalWithoutDiscounts += this.prices[item];
     },
     discounts: function() {
-        var discountAFilter, numberOfADiscounts;
+        var discountAFilter, numberOfADiscounts, totalDiscount, discountBFilter, numberOfBDiscounts;
+        
+        totalDiscount = 0;
         
         discountAFilter = this.items.filter(function(itemValue) { return itemValue === "A";});
         numberOfADiscounts = Math.floor(discountAFilter.length / 3);
         
-        return -20 * numberOfADiscounts;
+        totalDiscount += (-20 * numberOfADiscounts);
+        
+        discountBFilter = this.items.filter(function(itemValue) { return itemValue === "B";});
+        numberOfBDiscounts = Math.floor(discountBFilter.length / 2);
+        
+        totalDiscount += (-15 * numberOfBDiscounts);
+        
+        return totalDiscount;
     },
     total: function() {
         return this.totalWithoutDiscounts + this.discounts();
