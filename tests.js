@@ -59,6 +59,27 @@ test("Adding AAAA should return 180", function() {
     equals(checkout.total(), 180);
 });
 
+test("Adding AAAAA should return 230", function() {
+   var checkout = new Checkout();
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+    equals(checkout.total(), 230);
+});
+
+test("Adding AAAAAA should return 260", function() {
+   var checkout = new Checkout();
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+   checkout.add("A");
+    equals(checkout.total(), 260);
+});
+
 var Checkout = function() {
     this.totalWithoutDiscounts = 0;
     this.items = [];
@@ -77,12 +98,12 @@ Checkout.prototype = {
         this.totalWithoutDiscounts += this.prices[item];
     },
     discounts: function() {
-        var discountAFilter = this.items.filter(function(itemValue) { return itemValue === "A";});
+        var discountAFilter, numberOfADiscounts;
         
-        if (discountAFilter.length >= 3){
-         return -20;
-        }
-        return 0;
+        discountAFilter = this.items.filter(function(itemValue) { return itemValue === "A";});
+        numberOfADiscounts = Math.floor(discountAFilter.length / 3);
+        
+        return -20 * numberOfADiscounts;
     },
     total: function() {
         return this.totalWithoutDiscounts + this.discounts();
