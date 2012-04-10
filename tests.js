@@ -132,29 +132,29 @@ var Checkout = function() {
     };
     };
 
-Checkout.prototype = {
-    add: function(item) {
+Checkout.prototype.add = function(item) {
         this.items.push(item);
         this.totalWithoutDiscounts += this.prices[item];
-    },
-    discounts: function() {
+};
+
+Checkout.prototype.discounts = function() {
         var totalDiscount = 0;
 
         totalDiscount += (getDiscount(this.items, "A", 3, -20));
         totalDiscount += (getDiscount(this.items, "B", 2, -15));
         
         return totalDiscount;
-    },
-    total: function() {
+};
+
+Checkout.prototype.total = function() {
         return this.totalWithoutDiscounts + this.discounts();
-    }
 };
 
 function getDiscount(checkoutItems, unitOfDiscountedItem, numberOfItemsForApplicability, discount) {
-        var filter, numberOfDiscountsToApply;
-        
-        filter = checkoutItems.filter(function(itemValue) { return itemValue === unitOfDiscountedItem;});
-        numberOfDiscountsToApply = Math.floor(filter.length / numberOfItemsForApplicability);
-        
-        return discount * numberOfDiscountsToApply;
+    var filter, numberOfDiscountsToApply;
+    
+    filter = checkoutItems.filter(function(itemValue) { return itemValue === unitOfDiscountedItem;});
+    numberOfDiscountsToApply = Math.floor(filter.length / numberOfItemsForApplicability);
+    
+    return discount * numberOfDiscountsToApply;
 }
